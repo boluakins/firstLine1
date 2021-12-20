@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
-import StoryModel from "../models/Story";
-import { fetchStory } from "../data/API";
-import User from "./User";
+import User from './User';
+import StoryViewModel from "../models/StoryViewModel";
 
 type props = {
-  storyId: number;
+  storyViewModel: StoryViewModel;
 };
-const Story: React.FC<props> = ({ storyId }) => {
-  const [user, setUser] = useState<StoryModel>(Object);
-  useEffect(() => {
-    fetchStory(storyId).then((u) => setUser(u));
-  }, []);
-  const q = "";
-  const { by: authorId, score, time, title, url } = user;
+const Story: React.FC<props> = ({ storyViewModel }) => {
+  const { story, user } = storyViewModel;
   return (
     <article className="story">
-      <h4 className="title">{title}</h4>
+      <h4 className="title">{story.title || "loading"}</h4>
       <p className="info">
-        {score} points by <User authorId={authorId} />
+        score: <span className="highlight">{story.score || 0}</span> points
       </p>
+      <p className="info">
+        date:{" "}
+        <span className="highlight">
+          {new Date(story.time).toDateString() || "loading"}
+        </span>
+      </p>
+
+      <User author={user } />
       <div>
         <a
-          href={url}
+          href={story.url}
           className="read-link"
           target="_blank"
           rel="noopener noreferrer"

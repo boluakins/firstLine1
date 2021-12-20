@@ -257,6 +257,11 @@ Story
   color: var(--clr-grey-5);
 }
 
+.highlight {
+  margin-bottom: 0.5rem;
+  color: blue;
+}
+
 .read-link {
   font-size: 0.85rem;
   margin-right: 0.75rem;

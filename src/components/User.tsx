@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { fetchUser } from "../data/API";
 import UserModel from "../models/User";
 
 type props = {
-  authorId: string;
+  author: UserModel;
 };
-const User: React.FC<props> = ({ authorId }) => {
-  const [user, setUser] = useState<UserModel>(Object);
-  useEffect(() => {
-    fetchUser(authorId).then((u) => setUser(u));
-  }, []);
-  return <span>{authorId} with karma score {user.karma} </span>;
+const User: React.FC<props> = ({ author }) => {
+  const { id, karma } = author;
+  return (
+    <p className="info">
+      author:<span className="highlight"> {id}</span> || karma score:
+      <span className="highlight"> {karma || 0}</span>
+    </p>
+  );
 };
 
 export default User;

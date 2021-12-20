@@ -6,7 +6,7 @@ const getAllStoriesUrl =
 const getStoryUrl = "https://hacker-news.firebaseio.com/v0/item/{{id}}.json";
 const getUserUrl = "https://hacker-news.firebaseio.com/v0/user/{{id}}.json";
 
-const fetchStories = async (): Promise<number[]> => {
+const fetchAllStories = async (): Promise<number[]> => {
   try {
     return await (await fetch(getAllStoriesUrl)).json();
   } catch (error) {
@@ -45,4 +45,4 @@ const fetchUser = async (userId: string): Promise<User> => {
   }
 };
 
-export { fetchStories, fetchStory, fetchUser };
+export { fetchAllStories, fetchStory, fetchUser };

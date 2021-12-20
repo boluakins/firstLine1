@@ -1,4 +1,4 @@
-type Story = {
+interface Story {
   by: string;
   descendants: number;
   id: number;
@@ -8,6 +8,6 @@ type Story = {
   title: string;
   type: string;
   url: string;
-};
+}
 
 export default Story;

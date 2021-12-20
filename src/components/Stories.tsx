@@ -1,31 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { fetchStories } from "../data/API";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAllStories,
+  setIsLoading,
+  setRandomStories,
+  setSpliceIndex,
+} from "../actions/actions";
+import { reducerState } from "../context/reducer";
+import Error from "./Error";
+import Loading from "./Loading";
 import Story from "./Story";
 
 const Stories = () => {
-  const [toggle, setToggle] = useState(false);
-  const [stories, setStories] = useState<number[]>([]);
+  const dispatch = useDispatch();
+  const objState = useSelector((state: reducerState) => state);
+  const { randomStories, stories, sliceIndex, isLoading, hasError } = objState;
 
-  const refresh = () => {};
+  const [outerLoading, setOuterLoading] = useState(true);
+
+  const shuffle = () => {
+    dispatch(setIsLoading());
+    dispatch(setSpliceIndex());
+  };
+
   useEffect(() => {
-    fetchStories().then((s) => {
-      setStories(s);
-    });
+    dispatch(setAllStories());
+    setOuterLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (!outerLoading) {
+      dispatch(setRandomStories(stories, sliceIndex));
+    }
+  }, [sliceIndex]);
+
+  if (isLoading) {
+    return (
+      <main>
+        <Loading />
+      </main>
+    );
+  }
+  if (hasError) {
+    return (
+      <main>
+        <Error />
+      </main>
+    );
+  }
   return (
-    <section className="stories">
-      <h2>Hacker News</h2>
+    <>
       <div className="btn-container">
-        <button onClick={() => refresh()}>Refresh</button>
+        <button onClick={() => shuffle()}>Shuffle</button>
       </div>
-      {stories.slice(30, 40).map((id) => {
-        return (
-          <article key={id} className="story">
-            <Story storyId={id} />
-          </article>
-        );
-      })}
-    </section>
+      <section className="stories">
+        {randomStories.map((story) => {
+          return <Story key={story.story.id} storyViewModel={story} />;
+        })}
+      </section>
+    </>
   );
 };
 

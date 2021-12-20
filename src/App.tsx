@@ -1,10 +1,12 @@
+import Header from "./components/Header";
 import Stories from "./components/Stories";
 
 function App() {
   return (
-    <div>
+    <>
+      <Header />
       <Stories />
-    </div>
+    </>
   );
 }
 
