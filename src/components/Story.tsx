@@ -1,4 +1,4 @@
-import User from './User';
+import User from "./User";
 import StoryViewModel from "../models/StoryViewModel";
 
 type props = {
@@ -6,6 +6,7 @@ type props = {
 };
 const Story: React.FC<props> = ({ storyViewModel }) => {
   const { story, user } = storyViewModel;
+  const timestamp = new Date(story.time);
   return (
     <article className="story">
       <h4 className="title">{story.title || "loading"}</h4>
@@ -13,13 +14,10 @@ const Story: React.FC<props> = ({ storyViewModel }) => {
         score: <span className="highlight">{story.score || 0}</span> points
       </p>
       <p className="info">
-        date:{" "}
-        <span className="highlight">
-          {new Date(story.time).toDateString() || "loading"}
-        </span>
+        timestamp: <span className="highlight">{timestamp.toString() || "loading"}</span>
       </p>
 
-      <User author={user } />
+      <User author={user} />
       <div>
         <a
           href={story.url}
